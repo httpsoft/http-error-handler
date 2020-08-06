@@ -1,6 +1,6 @@
 {
     "name": "httpsoft/http-error-handler",
-    "description": "Error handling PSR-7 components",
+    "description": "Error handling PSR-7 and PSR-15 components",
     "keywords": ["php", "http", "error-handler", "error-middleware", "http-error", "psr-7", "psr-15"],
     "homepage": "https://httpsoft.org/",
     "type": "library",
