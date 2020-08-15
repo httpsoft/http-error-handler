@@ -42,7 +42,7 @@ jobs:
                 with:
                     php-version: ${{ matrix.php-version }}
                     extensions: ${{ env.extensions }}
-                    ini-values: date.timezone='UTC'
+                    ini-values: date.timezone='UTC', display_errors=On
                     coverage: pcov
 
             -   name: Determine composer cache directory
