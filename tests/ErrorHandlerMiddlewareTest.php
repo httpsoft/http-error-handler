@@ -21,6 +21,7 @@ use function error_reporting;
 
 use const E_ERROR;
 use const E_NOTICE;
+use const E_WARNING;
 
 class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeInterface
 {
@@ -116,7 +117,10 @@ class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeI
 
     public function testWithErrorRequestHandlerAndWithCaughtError(): void
     {
-        $response = $this->errorHandler->process($this->request, $this->createErrorRequestHandler(E_NOTICE));
+        $response = $this->errorHandler->process(
+            $this->request,
+            $this->createErrorRequestHandler(E_NOTICE | E_WARNING)
+        );
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertSame(self::STATUS_INTERNAL_SERVER_ERROR, $response->getStatusCode());
         $this->assertSame(self::PHRASES[self::STATUS_INTERNAL_SERVER_ERROR], $response->getReasonPhrase());
@@ -154,7 +158,10 @@ class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeI
     {
         $this->errorHandler->addListener($firstListener = new FirstErrorListener());
         $this->errorHandler->addListener($secondListener = new SecondErrorListener());
-        $response = $this->errorHandler->process($this->request, $this->createErrorRequestHandler(E_NOTICE));
+        $response = $this->errorHandler->process(
+            $this->request,
+            $this->createErrorRequestHandler(E_NOTICE | E_WARNING)
+        );
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertSame(self::STATUS_INTERNAL_SERVER_ERROR, $response->getStatusCode());

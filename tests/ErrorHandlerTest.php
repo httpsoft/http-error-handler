@@ -21,6 +21,7 @@ use function error_reporting;
 
 use const E_ERROR;
 use const E_NOTICE;
+use const E_WARNING;
 
 class ErrorHandlerTest extends TestCase implements ResponseStatusCodeInterface
 {
@@ -111,7 +112,7 @@ class ErrorHandlerTest extends TestCase implements ResponseStatusCodeInterface
 
     public function testWithErrorRequestHandlerAndWithCaughtError(): void
     {
-        $errorHandler = $this->createWithErrorRequestHandler(E_NOTICE);
+        $errorHandler = $this->createWithErrorRequestHandler(E_NOTICE | E_WARNING);
         $response = $errorHandler->handle($this->request);
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertSame(self::STATUS_INTERNAL_SERVER_ERROR, $response->getStatusCode());
@@ -150,7 +151,7 @@ class ErrorHandlerTest extends TestCase implements ResponseStatusCodeInterface
 
     public function testWithErrorRequestHandlerAndWithAdditionOfListeners(): void
     {
-        $errorHandler = $this->createWithErrorRequestHandler(E_NOTICE);
+        $errorHandler = $this->createWithErrorRequestHandler(E_NOTICE | E_WARNING);
         $errorHandler->addListener($firstListener = new FirstErrorListener());
         $errorHandler->addListener($secondListener = new SecondErrorListener());
         $response = $errorHandler->handle($this->request);

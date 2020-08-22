@@ -19,7 +19,8 @@ class ErrorRequestHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $variable = $undefined;
+        $array = [];
+        $array['undefined'];
         return ResponseFactory::create();
     }
 }
