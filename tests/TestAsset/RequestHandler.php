@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace HttpSoft\Tests\ErrorHandler\TestAsset;
 
-use HttpSoft\Response\ResponseFactory;
+use HttpSoft\Message\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -30,6 +30,6 @@ class RequestHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->code ? ResponseFactory::create($this->code) : ResponseFactory::create();
+        return $this->code ? new Response($this->code) : new Response();
     }
 }

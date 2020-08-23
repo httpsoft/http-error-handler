@@ -6,7 +6,7 @@ namespace HttpSoft\Tests\ErrorHandler;
 
 use HttpSoft\ErrorHandler\ErrorHandlerMiddleware;
 use HttpSoft\ErrorHandler\ErrorResponseGeneratorInterface;
-use HttpSoft\Request\ServerRequestFactory;
+use HttpSoft\ServerRequest\ServerRequestCreator;
 use HttpSoft\Response\ResponseStatusCodeInterface;
 use HttpSoft\Tests\ErrorHandler\TestAsset\ErrorRequestHandler;
 use HttpSoft\Tests\ErrorHandler\TestAsset\ThrowableRequestHandler;
@@ -25,6 +25,8 @@ use const E_WARNING;
 
 class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeInterface
 {
+    private const PHRASES = ErrorResponseGeneratorInterface::ERROR_PHRASES;
+
     /**
      * @var int
      */
@@ -43,7 +45,7 @@ class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeI
     public function setUp(): void
     {
         $this->errorHandler = new ErrorHandlerMiddleware();
-        $this->request = ServerRequestFactory::create();
+        $this->request = ServerRequestCreator::create();
         $this->errorReporting = error_reporting();
     }
 
@@ -57,7 +59,7 @@ class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeI
         $response = $this->errorHandler->process($this->request, $this->createRequestHandler());
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertSame(self::STATUS_OK, $response->getStatusCode());
-        $this->assertSame(self::PHRASES[self::STATUS_OK], $response->getReasonPhrase());
+        $this->assertSame('OK', $response->getReasonPhrase());
     }
 
     public function testWithRequestHandlerAndWithStatusCreated(): void
@@ -65,7 +67,7 @@ class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeI
         $response = $this->errorHandler->process($this->request, $this->createRequestHandler(self::STATUS_CREATED));
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertSame(self::STATUS_CREATED, $response->getStatusCode());
-        $this->assertSame(self::PHRASES[self::STATUS_CREATED], $response->getReasonPhrase());
+        $this->assertSame('Created', $response->getReasonPhrase());
     }
 
     public function testWithRequestHandlerAndWithErrorResponseGeneratorMock(): void
@@ -74,7 +76,7 @@ class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeI
         $response = $errorHandler->process($this->request, $this->createRequestHandler());
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertSame(self::STATUS_OK, $response->getStatusCode());
-        $this->assertSame(self::PHRASES[self::STATUS_OK], $response->getReasonPhrase());
+        $this->assertSame('OK', $response->getReasonPhrase());
     }
 
     public function testWithThrowableRequestHandlerAndWithDefaultError(): void
@@ -112,7 +114,7 @@ class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeI
         $response = $this->errorHandler->process($this->request, $this->createErrorRequestHandler(E_ERROR));
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertSame(self::STATUS_OK, $response->getStatusCode());
-        $this->assertSame(self::PHRASES[self::STATUS_OK], $response->getReasonPhrase());
+        $this->assertSame('OK', $response->getReasonPhrase());
     }
 
     public function testWithErrorRequestHandlerAndWithCaughtError(): void
@@ -134,7 +136,7 @@ class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeI
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertSame(self::STATUS_OK, $response->getStatusCode());
-        $this->assertSame(self::PHRASES[self::STATUS_OK], $response->getReasonPhrase());
+        $this->assertSame('OK', $response->getReasonPhrase());
 
         $this->assertFalse($firstListener->triggered());
         $this->assertFalse($secondListener->triggered());

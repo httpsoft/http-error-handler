@@ -6,7 +6,6 @@ namespace HttpSoft\ErrorHandler;
 
 use HttpSoft\Response\HtmlResponse;
 use HttpSoft\Response\JsonResponse;
-use HttpSoft\Response\ResponseStatusCodeInterface;
 use HttpSoft\Response\TextResponse;
 use HttpSoft\Response\XmlResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -21,7 +20,7 @@ use function strtolower;
 use function trim;
 use function uasort;
 
-final class ErrorResponseGenerator implements ErrorResponseGeneratorInterface, ResponseStatusCodeInterface
+final class ErrorResponseGenerator implements ErrorResponseGeneratorInterface
 {
     /**
      * {@inheritDoc}
@@ -31,12 +30,12 @@ final class ErrorResponseGenerator implements ErrorResponseGeneratorInterface, R
         $errorCode = (int) $error->getCode();
         $responseCode = self::STATUS_INTERNAL_SERVER_ERROR;
 
-        if ($errorCode >= 400 && $errorCode < 600 && array_key_exists($errorCode, self::PHRASES)) {
+        if (array_key_exists($errorCode, self::ERROR_PHRASES)) {
             $responseCode = $errorCode;
         }
 
         $requestMimeTypes = $this->getSortedMimeTypesByRequest($request);
-        return $this->getResponse($responseCode, self::PHRASES[$responseCode], $requestMimeTypes);
+        return $this->getResponse($responseCode, self::ERROR_PHRASES[$responseCode], $requestMimeTypes);
     }
 
     /**

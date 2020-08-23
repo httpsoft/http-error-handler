@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace HttpSoft\Tests\ErrorHandler\TestAsset;
 
-use HttpSoft\Response\ResponseFactory;
+use HttpSoft\Message\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -21,6 +21,6 @@ class ErrorRequestHandler implements RequestHandlerInterface
     {
         $array = [];
         $array['undefined'];
-        return ResponseFactory::create();
+        return new Response();
     }
 }

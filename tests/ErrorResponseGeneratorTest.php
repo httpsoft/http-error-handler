@@ -6,7 +6,8 @@ namespace HttpSoft\Tests\ErrorHandler;
 
 use Exception;
 use HttpSoft\ErrorHandler\ErrorResponseGenerator;
-use HttpSoft\Request\ServerRequest;
+use HttpSoft\ErrorHandler\ErrorResponseGeneratorInterface;
+use HttpSoft\Message\ServerRequest;
 use HttpSoft\Response\HtmlResponse;
 use HttpSoft\Response\JsonResponse;
 use HttpSoft\Response\ResponseStatusCodeInterface;
@@ -19,6 +20,8 @@ use Throwable;
 
 class ErrorResponseGeneratorTest extends TestCase implements ResponseStatusCodeInterface
 {
+    private const PHRASES = ErrorResponseGeneratorInterface::ERROR_PHRASES;
+
     private ErrorResponseGenerator $generator;
 
     public function setUp(): void
