@@ -4,6 +4,7 @@
 [![Latest Stable Version](https://poser.pugx.org/httpsoft/http-error-handler/v)](https://packagist.org/packages/httpsoft/http-error-handler)
 [![Total Downloads](https://poser.pugx.org/httpsoft/http-error-handler/downloads)](https://packagist.org/packages/httpsoft/http-error-handler)
 [![GitHub Build Status](https://github.com/httpsoft/http-error-handler/workflows/build/badge.svg)](https://github.com/httpsoft/http-error-handler/actions)
+[![GitHub Static Analysis Status](https://github.com/httpsoft/http-error-handler/workflows/static/badge.svg)](https://github.com/httpsoft/http-error-handler/actions)
 [![Scrutinizer Code Coverage](https://scrutinizer-ci.com/g/httpsoft/http-error-handler/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/httpsoft/http-error-handler/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/httpsoft/http-error-handler/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/httpsoft/http-error-handler/?branch=master)
 
