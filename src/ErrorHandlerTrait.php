@@ -100,6 +100,7 @@ trait ErrorHandlerTrait
      * @param Throwable $error
      * @param ServerRequestInterface $request
      * @return ResponseInterface
+     * @psalm-suppress RedundantCastGivenDocblockType
      */
     private function generateResponse(Throwable $error, ServerRequestInterface $request): ResponseInterface
     {
