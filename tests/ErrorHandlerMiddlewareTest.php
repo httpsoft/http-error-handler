@@ -9,6 +9,7 @@ use HttpSoft\ErrorHandler\ErrorResponseGeneratorInterface;
 use HttpSoft\ServerRequest\ServerRequestCreator;
 use HttpSoft\Response\ResponseStatusCodeInterface;
 use HttpSoft\Tests\ErrorHandler\TestAsset\ErrorRequestHandler;
+use HttpSoft\Tests\ErrorHandler\TestAsset\ErrorResponseGenerator;
 use HttpSoft\Tests\ErrorHandler\TestAsset\ThrowableRequestHandler;
 use HttpSoft\Tests\ErrorHandler\TestAsset\FirstErrorListener;
 use HttpSoft\Tests\ErrorHandler\TestAsset\RequestHandler;
@@ -171,6 +172,32 @@ class ErrorHandlerMiddlewareTest extends TestCase implements ResponseStatusCodeI
 
         $this->assertTrue($firstListener->triggered());
         $this->assertTrue($secondListener->triggered());
+    }
+
+    public function testWithDefaultErrorCodeForNotValidResponseStatusCodeAndErrorCode(): void
+    {
+        $errorHandler = new ErrorHandlerMiddleware(new ErrorResponseGenerator(self::STATUS_FOUND));
+        $response = $errorHandler->process(
+            $this->request,
+            $this->createThrowableRequestHandler(self::STATUS_MOVED_PERMANENTLY)
+        );
+
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertSame(self::STATUS_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        $this->assertSame(self::PHRASES[self::STATUS_INTERNAL_SERVER_ERROR], $response->getReasonPhrase());
+    }
+
+    public function testWithErrorCodeForNotValidResponseStatusCode(): void
+    {
+        $errorHandler = new ErrorHandlerMiddleware(new ErrorResponseGenerator(self::STATUS_FOUND));
+        $response = $errorHandler->process(
+            $this->request,
+            $this->createThrowableRequestHandler(self::STATUS_NOT_FOUND)
+        );
+
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertSame(self::STATUS_NOT_FOUND, $response->getStatusCode());
+        $this->assertSame(self::PHRASES[self::STATUS_NOT_FOUND], $response->getReasonPhrase());
     }
 
     /**
