@@ -24,9 +24,6 @@ final class ErrorResponseGenerator implements ErrorResponseGeneratorInterface
 {
     /**
      * {@inheritDoc}
-     *
-     * @psalm-suppress MixedArgument
-     * @psalm-suppress MixedArrayAccess
      */
     public function generate(Throwable $error, ServerRequestInterface $request): ResponseInterface
     {
@@ -88,8 +85,6 @@ final class ErrorResponseGenerator implements ErrorResponseGeneratorInterface
     /**
      * @param ServerRequestInterface $request
      * @return string[]
-     * @psalm-suppress MixedArrayOffset
-     * @psalm-suppress MixedReturnTypeCoercion
      */
     private function getSortedMimeTypesByRequest(ServerRequestInterface $request): array
     {
