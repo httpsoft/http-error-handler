@@ -17,7 +17,7 @@ final class ErrorHandlerMiddleware implements MiddlewareInterface
     /**
      * @param ErrorResponseGeneratorInterface|null $responseGenerator
      */
-    public function __construct(ErrorResponseGeneratorInterface $responseGenerator = null)
+    public function __construct(?ErrorResponseGeneratorInterface $responseGenerator = null)
     {
         $this->responseGenerator = $responseGenerator ?? new ErrorResponseGenerator();
     }

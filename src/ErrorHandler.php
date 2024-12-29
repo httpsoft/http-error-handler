@@ -29,7 +29,7 @@ final class ErrorHandler implements RequestHandlerInterface
      */
     public function __construct(
         RequestHandlerInterface $handler,
-        ErrorResponseGeneratorInterface $responseGenerator = null
+        ?ErrorResponseGeneratorInterface $responseGenerator = null
     ) {
         $this->handler = $handler;
         $this->responseGenerator = $responseGenerator ?? new ErrorResponseGenerator();
